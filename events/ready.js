@@ -45,5 +45,5 @@ module.exports = async client => {
     }
 
     // And finally set the activity
-    client.user.setActivity("SWGoH");
+    client.user.setActivity("SWHoH. Hello there!");
 };

@@ -1,0 +1,1 @@
+docker run --name mysql -d -p 3306:3306 --env-file mysql.env -v /Users/xelon/mysql:/var/lib/mysql sameersbn/mysql:5.7.26-0

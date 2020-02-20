@@ -71,13 +71,14 @@ DROP TABLE IF EXISTS `profiles`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `profiles` (
   `discordId` varchar(24) COLLATE utf8_unicode_ci NOT NULL,
-  `discordName` varchar(225) COLLATE utf8_unicode_ci NOT NULL,
+  `discordName` text COLLATE utf8mb4_bin NOT NULL,
   `discordTag` varchar(8) COLLATE utf8_unicode_ci NOT NULL,
-  `username` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `username` varchar(128) COLLATE utf8mb4_bin DEFAULT NULL,
   `allycode` int(9) DEFAULT NULL,
   `guildId` int(10) DEFAULT NULL,
+  `guildRefId` varchar(20)  COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`discordId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Table structure for table `settings`

@@ -76,19 +76,40 @@ Guild ID  :: ${results[0]["guildId"] ? results[0]["guildId"] : "Nothing Found"}
                 }
                 if (allycode.length === 11) allycode = parseInt(allycode.replace(/-/g, ""));
 
+                const ApiSwgohHelp = require('api-swgoh-help');
+                const SwgohHelp = new ApiSwgohHelp({
+                    "username": client.config.swapi.username,
+                    "password": client.config.swapi.password
+                });
+                let playload = { 
+                    allycodes: [ allycode ],
+                    allycode: allycode 
+                };
+                let profileAPI = await SwgohHelp.fetchPlayer( playload );
+
                 const profile = await swgoh.profileAlly(allycode);
                 let guildId = null;
+                let guildRefId = null;
                 let guildName = "No Guild";
+                let profileAllycode = null;
                 if (profile.guildUrl) {
                     const guildInfo = profile.guildUrl.split("/");
                     guildId = parseInt(guildInfo[2]);
-                    guildName = guildInfo[3].replace("-", " ").toProperCase();
+                    guildName = guildInfo[3].replace("-", " ");
                 }
-                const username = profile.username;
+                let username = profile.username;
+                if (profileAPI.result[0].guildName) {
+                    guildName = profileAPI.result[0].guildName;
+                    guildRefId = profileAPI.result[0].guildRefId;
+                    username = profileAPI.result[0].name;
+                }
+                if (profileAPI.result.length > 0 && profileAPI.result[0].allyCode) {
+                    profileAllycode = profileAPI.result[0].allyCode;
+                }
 
                 await client.doSQL(
-                    "INSERT INTO profiles (discordId, discordName, discordTag, username, allycode, guildId) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE discordName=VALUES(discordName), discordTag=VALUES(discordTag), username=VALUES(username), allycode=VALUES(allycode), guildId=VALUES(guildId)",
-                    [user.id.toString(), user.username, user.discriminator, username, allycode, guildId]
+                    "INSERT INTO profiles (discordId, discordName, discordTag, username, allycode, guildId, guildRefId) VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE discordName=VALUES(discordName), discordTag=VALUES(discordTag), username=VALUES(username), allycode=VALUES(allycode), guildId=VALUES(guildId), guildRefId=VALUES(guildRefId)",
+                    [user.id.toString(), user.username.toString(), user.discriminator, username, allycode, guildId, guildRefId]
                 );
 
                 const embed = new RichEmbed()
@@ -99,8 +120,8 @@ Guild ID  :: ${results[0]["guildId"] ? results[0]["guildId"] : "Nothing Found"}
 If this information is wrong, please run \`${message.settings.prefix}register\` again or double check swgoh.gg to ensure your information is correct.
 If your allycode is not found, you will be able to add that in the future.`)
                     .addField("**Basic User Information**", `\`\`\`asciidoc
-Player    :: ${profile.username ? profile.username : "Nothing Found"}
-Ally Code :: ${profile.allyCode && profile.allyCode.length === 11 ? profile.allyCode : "Nothing Found"}
+Player    :: ${username ? username : "Nothing Found"}
+Ally Code :: ${profileAllycode ? profileAllycode : "Nothing Found"}
 Guild     :: ${guildName}
 \`\`\``, false)
                     .setFooter(`Try running the \`${message.settings.prefix}profile\` command to see one of the ways I can display your in-game data.`);
@@ -116,6 +137,7 @@ Guild     :: ${guildName}
 
                 // Manually cache everything!
                 client.cache.defer.then(async () => { client.cache.set(allycode + "_profile", profile); });
+                client.cache.defer.then(async () => { client.cache.set(allycode + "_profileHelpApi", profileAPI.result[0]); });
                 client.cache.defer.then(async () => { client.cache.set(allycode + "_collection", await swgoh.collectionAlly(allycode)); });
                 client.cache.defer.then(async () => { client.cache.set(allycode + "_ships", await swgoh.shipAlly(allycode)); });
                 client.cache.defer.then(async () => { client.cache.set(allycode + "_mods", await swgoh.modsAlly(allycode)); });
