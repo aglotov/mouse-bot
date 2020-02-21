@@ -5,9 +5,9 @@ module.exports = (client) => {
     --- MYSQL LOOKUP FUNCTION ---
     Establishes a connection with mySQL, then executes the sqlSyntax
     args replace "?" within the sqlSyntax
-    db by default is "xelonbot", can also be "swgoh"
+    db by default is "xelobot", can also be "swgoh"
     */
-    client.doSQL = async (sqlSyntax, args, db = "xelonbot") => {
+    client.doSQL = async (sqlSyntax, args, db = "xelobot") => {
         return new Promise((resolve, reject) => {
             try {
 

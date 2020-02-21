@@ -1,7 +1,7 @@
 const config = {
     "admins": "[]",
     "token": "",
-    "swapi": { // for https://api.swgoh.help/ future evolution, not yet needed
+    "swapi": { // for https://api.swgoh.help/
         "username":"",
         "password":""
     },
@@ -12,9 +12,9 @@ const config = {
 
     "mySQL": {
         "host"     : "",
-        "user"     : "mousebot",
-        "password" : "mousebot",
-        "database" : "mousebot"
+        "user"     : "xelobot",
+        "password" : "xelobot",
+        "database" : "xelobot"
     },
 
     // This is for the points systems, changing this dynamically changes how
@@ -24,7 +24,7 @@ const config = {
     // Default Settings that every new server will begin with
     // These must be edited within Discord if the bot has already been invited
     "defaultSettings" : {
-        "prefix": "/",
+        "prefix": "?",
         "modRole": "Mod",
         "guildReset": 0000,
         "points": 0,

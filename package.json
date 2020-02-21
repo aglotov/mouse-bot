@@ -1,5 +1,5 @@
 {
-  "name": "kobzar-bot",
+  "name": "xelobot",
   "version": "1.0.1",
   "description": "A Discord bot for Star Wars: Galaxy of Heroes. Based on mouse-bot 2.5.11",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aglotov/kobzar-bot.git"
+    "url": "git+https://github.com/aglotov/xelobot.git"
   },
   "keywords": [
     "Discord",
@@ -21,9 +21,9 @@
   "author": "Alexander Glotov",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/aglotov/kobzar-bot/issues"
+    "url": "https://github.com/aglotov/xelobot/issues"
   },
-  "homepage": "https://github.com/aglotov/kobzar-bot#readme",
+  "homepage": "https://github.com/aglotov/xelobot#readme",
   "dependencies": {
     "api-swgoh-help": "^3.3.0",
     "async": "^2.6.1",
